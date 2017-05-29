@@ -1,0 +1,16 @@
+{
+    "name": "fullmoonissue/subtitler",
+    "license": "MIT",
+    "type": "project",
+    "description": "Subtitles manager",
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Tests\\": "tests/" }
+    },
+    "require": {
+        "php": ">=5.3",
+        "symfony/console": "~3.2"
+    }
+}
