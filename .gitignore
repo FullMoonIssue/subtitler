@@ -1,5 +1,5 @@
-src/Command/input
+src/Command/input/*
 !src/Command/input/.gitkeep
-src/Command/output
+src/Command/output/*
 !src/Command/output/.gitkeep
 vendor
