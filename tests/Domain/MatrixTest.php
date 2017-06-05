@@ -38,7 +38,7 @@ BLOCK;
 
     public function setUp()
     {
-        $fixtureContent = file_get_contents(__DIR__.'/Fixtures/fixture.srt');
+        $fixtureContent = file_get_contents(__DIR__.'/../Fixtures/fixture.srt');
         $this->matrix = Matrix::parseMatrix($fixtureContent);
     }
 

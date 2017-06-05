@@ -91,16 +91,28 @@ class SearchCommand extends AbstractCommand
      */
     private function displayResults(array $founds)
     {
-        if(0 === sizeof($founds)) {
-            $this->io->comment('Nothing found');
+        if($this->searchByTime) {
+            $this->io->title(sprintf('Search by time : %s', $this->searchByTime));
+            if(1 === count($founds)) {
+                $this->io->section('Exact block found');
+            } else {
+                $this->io->section('In between block found');
+            }
         } else {
-            $this->io->title('Results found');
+            $this->io->title(sprintf('Search by text : %s', $this->searchByText));
+        }
+
+        if(0 === count($founds)) {
+            $this->io->comment('No block found');
+        } else {
             $table = new Table($this->output);
             $table
                 ->setHeaders(['Translate id', 'Block'])
                 ->setRows(
                     array_map(
-                        function($id, $block) { return [$id, $block]; },
+                        function ($id, $block) {
+                            return [$id, $block];
+                        },
                         array_keys($founds),
                         array_values($founds)
                     )
