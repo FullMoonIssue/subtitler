@@ -189,7 +189,7 @@ BLOCK;
 
         // --- Translate milli seconds
 
-        $this->matrix->translate('+1u', 1, 1);
+        $this->matrix->translate('+1ms', 1, 1);
 
         $matrixFormatted = <<<BLOCK
 1
@@ -211,7 +211,7 @@ BLOCK;
 
         $this->assertEquals($matrixFormatted, $this->matrix->getFormattedMatrix());
 
-        $this->matrix->translate('-1u', 1, 1);
+        $this->matrix->translate('-1ms', 1, 1);
 
         $this->assertEquals($this->originalFormattedMatrix, $this->matrix->getFormattedMatrix());
     }
@@ -307,7 +307,7 @@ BLOCK;
 
         // --- Translate milli seconds
 
-        $this->matrix->translate('+1u', 1);
+        $this->matrix->translate('+1ms', 1);
 
         $matrixFormatted = <<<BLOCK
 1
@@ -329,7 +329,7 @@ BLOCK;
 
         $this->assertEquals($matrixFormatted, $this->matrix->getFormattedMatrix());
 
-        $this->matrix->translate('-1u', 1);
+        $this->matrix->translate('-1ms', 1);
 
         $this->assertEquals($this->originalFormattedMatrix, $this->matrix->getFormattedMatrix());
     }

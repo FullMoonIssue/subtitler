@@ -40,7 +40,7 @@ class TranslateTimeCommand extends AbstractCommand
 
         $this
             ->setDescription('Do a time translation')
-            ->addOption('translate', null, InputOption::VALUE_REQUIRED, 'ex: -1u (milli second) // +1s (second) // -1m (minute) // +1h (hour)')
+            ->addOption('translate', null, InputOption::VALUE_REQUIRED, 'ex: -1ms (milli second) // +1s (second) // -1m (minute) // +1h (hour)')
             ->addOption('from', null, InputOption::VALUE_OPTIONAL, 'Translate id to begin the time translation', 1)
             ->addOption('to', null, InputOption::VALUE_OPTIONAL, 'Translate id to end the time translation');
     }

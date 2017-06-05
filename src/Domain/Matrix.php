@@ -62,7 +62,7 @@ class Matrix
      */
     public function translate($userTime, $fromId = 1, $toId = null)
     {
-        if(!preg_match('=(?P<operation>[\+|-])(?P<count>\d+)(?P<unit>[h|m|s|u])=', $userTime, $matches)) {
+        if(!preg_match('=(?P<operation>[\+|-])(?P<count>\d+)(?P<unit>ms|[h|m|s])=', $userTime, $matches)) {
             throw new MatrixException('Your translation value is not correct');
         }
         if($fromId < 1) {
@@ -89,7 +89,7 @@ class Matrix
             case 's':
                 $method = ($addOperation ? 'addSeconds' : 'subtractSeconds');
                 break;
-            case 'u':
+            case 'ms':
                 $method = ($addOperation ? 'addMilliSeconds' : 'subtractMilliSeconds');
                 break;
         }
