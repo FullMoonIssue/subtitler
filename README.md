@@ -8,10 +8,11 @@ This project aims to manage the subtitles time translations.
 
 A block is formed with :
 
-- a number
+- an identifier (the number of the block)
 - a begin time
 - an ending time
-- one or more lines of text
+- one or two lines of text
+- an empty line
 
 A time contains :
 
@@ -27,11 +28,12 @@ The block textual representation will looks like this :
 00:01:53,660 --> 00:01:55,360
 This is a sentence.
 Now, an other sentence.
+
 ```
 
 ### Matrix
 
-A matrix is just a sum of blocks combined together separate by an empty line (that represent the content of a .srt file)
+A matrix is just a sum of blocks combined together (that represents the content of a subtitles file)
 
 ## Install
 
@@ -41,9 +43,9 @@ composer install
 
 ## Commands
 
-_Your .srt file have to be present in the Command/input folder_
+_Your subtitles file have to be present in the Command/input folder_
 
-* Find a translate id by searching a text or a time through the .srt file
+* Find a translate id by searching a text or a time through the subtitles file
 
 ```
 php console.php subtitler:search mySrtFile.srt --by-text=internet
