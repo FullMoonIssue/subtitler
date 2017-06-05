@@ -2,7 +2,7 @@
 
 namespace Command;
 
-use Action\Search;
+use Action\Find;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,17 +30,17 @@ class SearchCommand extends AbstractCommand
     protected $searchByTime;
 
     /**
-     * @var Search
+     * @var Find
      */
-    private $search;
+    private $find;
 
     /**
      * SearchCommand constructor.
-     * @param Search $search
+     * @param Find $find
      */
-    public function __construct(Search $search)
+    public function __construct(Find $find)
     {
-        $this->search = $search;
+        $this->find = $find;
 
         parent::__construct(self::COMMAND);
     }
@@ -64,7 +64,7 @@ class SearchCommand extends AbstractCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->checkInputs();
-        $founds = $this->search->search($this->inputFile, $this->searchByText, $this->searchByTime);
+        $founds = $this->find->search($this->inputFile, $this->searchByText, $this->searchByTime);
         $this->displayResults($founds);
     }
 

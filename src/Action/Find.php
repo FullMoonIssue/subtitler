@@ -5,10 +5,10 @@ namespace Action;
 use Domain\Matrix;
 
 /**
- * Class Search
+ * Class Find
  * @package Action
  */
-class Search implements SearchInterface
+class Find implements FindInterface
 {
     /**
      * {@inheritdoc}

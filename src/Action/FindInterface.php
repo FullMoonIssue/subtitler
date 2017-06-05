@@ -3,10 +3,10 @@
 namespace Action;
 
 /**
- * Interface SearchInterface
+ * Interface FindInterface
  * @package Action
  */
-interface SearchInterface
+interface FindInterface
 {
     /**
      * @param string $inputFile
