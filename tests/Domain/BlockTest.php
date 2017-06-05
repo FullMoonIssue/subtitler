@@ -105,8 +105,9 @@ BLOCK;
      */
     public function testSearchByTime()
     {
-        $this->assertTrue($this->block->searchByTime('00:46:59,741'));
+        $this->assertTrue($this->block->searchByTime('00:46:58,741'));
         $this->assertFalse($this->block->searchByTime('00:46:57,739'));
+        $this->assertFalse($this->block->searchByTime('00:47:01,300'));
     }
 
     /**
