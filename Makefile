@@ -6,3 +6,7 @@ group-test: prepare-test
 
 test: prepare-test
 	@./phpunit.phar
+
+cs-fixer:
+	php php-cs-fixer.phar fix src
+	php php-cs-fixer.phar fix tests

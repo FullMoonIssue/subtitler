@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Domain;
+namespace Tests\Domain\SubRip;
 
-use Domain\Matrix;
+use Domain\SubRip\Matrix;
 
 /**
  * Class MatrixTest
@@ -38,7 +38,7 @@ BLOCK;
 
     public function setUp()
     {
-        $fixtureContent = file_get_contents(__DIR__.'/../Fixtures/fixture.srt');
+        $fixtureContent = file_get_contents(__DIR__.'/../../Fixtures/fixture.srt');
         $this->matrix = Matrix::parseMatrix($fixtureContent);
     }
 

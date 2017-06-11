@@ -7,4 +7,5 @@ namespace Domain\Exception;
  * @package Domain\Exception
  */
 class TimeException extends \LogicException
-{}
+{
+}

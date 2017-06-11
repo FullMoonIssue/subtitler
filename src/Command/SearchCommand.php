@@ -3,6 +3,8 @@
 namespace Command;
 
 use Action\Find;
+use Domain\Descriptor\DescriptorRegistry;
+use Domain\TimeInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,7 +27,7 @@ class SearchCommand extends AbstractCommand
     protected $searchByText;
 
     /**
-     * @var string
+     * @var TimeInterface
      */
     protected $searchByTime;
 
@@ -37,12 +39,13 @@ class SearchCommand extends AbstractCommand
     /**
      * SearchCommand constructor.
      * @param Find $find
+     * @param DescriptorRegistry $descriptorRegistry
      */
-    public function __construct(Find $find)
+    public function __construct(Find $find, DescriptorRegistry $descriptorRegistry)
     {
         $this->find = $find;
 
-        parent::__construct(self::COMMAND);
+        parent::__construct(self::COMMAND, $descriptorRegistry);
     }
 
     /**
@@ -55,7 +58,7 @@ class SearchCommand extends AbstractCommand
         $this
             ->setDescription('Find the translate id of a block by a text or a time')
             ->addOption('by-text', null, InputOption::VALUE_OPTIONAL, 'Search by a providing text')
-            ->addOption('by-time', null, InputOption::VALUE_OPTIONAL, 'Search by a providing time (ex: 00:00:30,420)');
+            ->addOption('by-time', null, InputOption::VALUE_OPTIONAL, 'Search by a providing time (ex: 00:00:30,420 for a .srt file)');
     }
 
     /**
@@ -64,26 +67,31 @@ class SearchCommand extends AbstractCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->checkInputs();
-        $founds = $this->find->search($this->inputFile, $this->searchByText, $this->searchByTime);
+        $class = $this->descriptor->getMatrixConstructor();
+        $founds = $this->find->search($class::parseMatrix(file_get_contents($this->inputFile)), $this->searchByText, $this->searchByTime);
         $this->displayResults($founds);
     }
 
     protected function checkInputs()
     {
+        parent::checkInputs();
+
         $this->searchByText = $this->input->getOption('by-text');
         $this->searchByTime = $this->input->getOption('by-time');
+        if (null !== $this->searchByTime) {
+            $class = $this->descriptor->getTimeConstructor();
+            $this->searchByTime = new $class($this->searchByTime);
+        }
 
-        if(null === $this->searchByText && null === $this->searchByTime) {
+        if (null === $this->searchByText && null === $this->searchByTime) {
             $this->io->error('You have to provide a text or a time to do your research.');
             exit(self::ERROR_NO_TYPE_OF_SEARCH_ASSIGNED);
         }
 
-        if(null !== $this->searchByText && null !== $this->searchByTime) {
+        if (null !== $this->searchByText && null !== $this->searchByTime) {
             $this->io->error('You have to provide either a text or a time to do your research.');
             exit(self::ERROR_MULTIPLE_TYPE_OF_SEARCH_ASSIGNED);
         }
-
-        parent::checkInputs();
     }
 
     /**
@@ -91,9 +99,9 @@ class SearchCommand extends AbstractCommand
      */
     private function displayResults(array $founds)
     {
-        if($this->searchByTime) {
-            $this->io->title(sprintf('Search by time : %s', $this->searchByTime));
-            if(1 === count($founds)) {
+        if ($this->searchByTime) {
+            $this->io->title(sprintf('Search by time : %s', $this->searchByTime->getFormattedTime()));
+            if (1 === count($founds)) {
                 $this->io->section('Exact block found');
             } else {
                 $this->io->section('In between block found');
@@ -102,12 +110,12 @@ class SearchCommand extends AbstractCommand
             $this->io->title(sprintf('Search by text : %s', $this->searchByText));
         }
 
-        if(0 === count($founds)) {
+        if (0 === count($founds)) {
             $this->io->comment('No block found');
         } else {
             $table = new Table($this->output);
             $table
-                ->setHeaders(['Translate id', 'Block'])
+                ->setHeaders(['Id', 'Block'])
                 ->setRows(
                     array_map(
                         function ($id, $block) {

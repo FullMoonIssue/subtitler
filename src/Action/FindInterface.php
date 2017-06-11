@@ -2,6 +2,9 @@
 
 namespace Action;
 
+use Domain\MatrixInterface;
+use Domain\TimeInterface;
+
 /**
  * Interface FindInterface
  * @package Action
@@ -9,11 +12,10 @@ namespace Action;
 interface FindInterface
 {
     /**
-     * @param string $inputFile
+     * @param MatrixInterface $matrix
      * @param string|null $searchByText
-     * @param string|null $searchByTime
-     *
+     * @param TimeInterface|null $searchByTime
      * @return array
      */
-    public function search($inputFile, $searchByText, $searchByTime);
+    public function search(MatrixInterface $matrix, $searchByText = null, TimeInterface $searchByTime = null);
 }

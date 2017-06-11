@@ -7,12 +7,12 @@ use Domain\Exception\TimeException;
 /**
  * Class Time
  */
-class Time
+abstract class Time implements TimeInterface
 {
     /**
      * @var \DateTime
      */
-    private $time;
+    protected $time;
 
     /**
      * Time constructor.
@@ -20,44 +20,26 @@ class Time
      */
     public function __construct($formattedTime)
     {
-        preg_match(
-            '/(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d{2}),(?P<milliseconds>\d{3})/',
-            $formattedTime,
-            $matches
-        );
-
-        $this->constructDateTime([
-            $matches['hours'],
-            $matches['minutes'],
-            $matches['seconds'],
-            $matches['milliseconds']
-        ]);
+        $this->buildDateTime($formattedTime);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTime()
     {
         return $this->time;
     }
 
     /**
-     * @return string
-     */
-    public function getFormattedTime()
-    {
-        // Show milliseconds not microseconds
-        return substr($this->time->format('H:i:s,u'), 0, -3);
-    }
-
-    /**
-     * @param int $nbHours
-     * @return $this
+     * {@inheritdoc}
      */
     public function addHours($nbHours)
     {
-        if(!$this->isPositiveValue($nbHours)) {
+        if (!$this->isPositiveValue($nbHours)) {
             throw new TimeException('Only positive hours');
         }
-        if(24 <= $nbHours) {
+        if (24 <= $nbHours) {
             throw new TimeException('Just add between 1 and 23 hours');
         }
 
@@ -69,15 +51,14 @@ class Time
     }
 
     /**
-     * @param int $nbHours
-     * @return $this
+     * {@inheritdoc}
      */
     public function subtractHours($nbHours)
     {
-        if(!$this->isPositiveValue($nbHours)) {
+        if (!$this->isPositiveValue($nbHours)) {
             throw new TimeException('Only positive hours');
         }
-        if(24 <= $nbHours) {
+        if (24 <= $nbHours) {
             throw new TimeException('Just subtract between 1 and 23 hours');
         }
 
@@ -89,15 +70,14 @@ class Time
     }
 
     /**
-     * @param int $nbMinutes
-     * @return $this
+     * {@inheritdoc}
      */
     public function addMinutes($nbMinutes)
     {
-        if(!$this->isPositiveValue($nbMinutes)) {
+        if (!$this->isPositiveValue($nbMinutes)) {
             throw new TimeException('Only positive minutes');
         }
-        if(60 <= $nbMinutes) {
+        if (60 <= $nbMinutes) {
             throw new TimeException('Just add between 1 and 59 minutes or hours instead');
         }
 
@@ -109,15 +89,14 @@ class Time
     }
 
     /**
-     * @param int $nbMinutes
-     * @return $this
+     * {@inheritdoc}
      */
     public function subtractMinutes($nbMinutes)
     {
-        if(!$this->isPositiveValue($nbMinutes)) {
+        if (!$this->isPositiveValue($nbMinutes)) {
             throw new TimeException('Only positive minutes');
         }
-        if(60 <= $nbMinutes) {
+        if (60 <= $nbMinutes) {
             throw new TimeException('Just subtract between 1 and 59 minutes or hours instead');
         }
 
@@ -129,15 +108,14 @@ class Time
     }
 
     /**
-     * @param int $nbSeconds
-     * @return $this
+     * {@inheritdoc}
      */
     public function addSeconds($nbSeconds)
     {
-        if(!$this->isPositiveValue($nbSeconds)) {
+        if (!$this->isPositiveValue($nbSeconds)) {
             throw new TimeException('Only positive seconds');
         }
-        if(60 <= $nbSeconds) {
+        if (60 <= $nbSeconds) {
             throw new TimeException('Just add between 1 and 59 seconds or minutes instead');
         }
 
@@ -149,15 +127,14 @@ class Time
     }
 
     /**
-     * @param int $nbSeconds
-     * @return $this
+     * {@inheritdoc}
      */
     public function subtractSeconds($nbSeconds)
     {
-        if(!$this->isPositiveValue($nbSeconds)) {
+        if (!$this->isPositiveValue($nbSeconds)) {
             throw new TimeException('Only positive seconds');
         }
-        if(60 <= $nbSeconds) {
+        if (60 <= $nbSeconds) {
             throw new TimeException('Just subtract between 1 and 59 seconds or minutes instead');
         }
 
@@ -169,20 +146,19 @@ class Time
     }
 
     /**
-     * @param int $nbMilliSeconds
-     * @return $this
+     * {@inheritdoc}
      */
     public function addMilliSeconds($nbMilliSeconds)
     {
-        if(!$this->isPositiveValue($nbMilliSeconds)) {
+        if (!$this->isPositiveValue($nbMilliSeconds)) {
             throw new TimeException('Only positive milli seconds');
         }
-        if(1000 <= $nbMilliSeconds) {
+        if (1000 <= $nbMilliSeconds) {
             throw new TimeException('Just add between 1 and 999 milliseconds or seconds instead');
         }
 
         $currentNbMilliSeconds = (int) $this->time->format('u') + ($nbMilliSeconds * 1000);
-        if(1000000 <= $currentNbMilliSeconds) {
+        if (1000000 <= $currentNbMilliSeconds) {
             $currentNbMilliSeconds -= 1000000;
             $this->addSeconds(1);
         }
@@ -194,20 +170,19 @@ class Time
     }
 
     /**
-     * @param int $nbMilliSeconds
-     * @return $this
+     * {@inheritdoc}
      */
     public function subtractMilliSeconds($nbMilliSeconds)
     {
-        if(!$this->isPositiveValue($nbMilliSeconds)) {
+        if (!$this->isPositiveValue($nbMilliSeconds)) {
             throw new TimeException('Only positive milli seconds');
         }
-        if(1000 <= $nbMilliSeconds) {
+        if (1000 <= $nbMilliSeconds) {
             throw new TimeException('Just subtract between 1 and 999 milliseconds or seconds instead');
         }
 
         $currentNbMilliSeconds = (int) $this->time->format('u') - ($nbMilliSeconds * 1000);
-        if(0 > $currentNbMilliSeconds) {
+        if (0 > $currentNbMilliSeconds) {
             $currentNbMilliSeconds = 1000000 - abs($currentNbMilliSeconds);
             $this->subtractSeconds(1);
         }
@@ -232,11 +207,11 @@ class Time
      */
     protected function checkTime()
     {
-        if(1969 >= (int) $this->time->format('Y')) {
-            throw new TimeException('Nope, no duration less than 0 hours is handled');
+        if (1969 >= (int) $this->time->format('Y')) {
+            throw new TimeException('Nope, no duration less than 0 second is handled');
         }
 
-        if(2 <= (int) $this->time->format('d')) {
+        if (2 <= (int) $this->time->format('d')) {
             throw new TimeException('Nope, no duration more or equals than 24 hours is handled');
         }
     }

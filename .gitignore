@@ -3,3 +3,4 @@ src/Command/input/*
 src/Command/output/*
 !src/Command/output/.gitkeep
 vendor
+.php_cs.cache

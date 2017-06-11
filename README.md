@@ -2,11 +2,13 @@
 
 This project aims to manage the subtitles time translations.
 
+The supported subtitles extension is .srt.
+
 ## Domain
 
 ### Block
 
-A block is formed with :
+A block (in a .srt file) is formed with :
 
 - an identifier (the number of the block)
 - a begin time
@@ -14,7 +16,7 @@ A block is formed with :
 - one or two lines of text
 - an empty line
 
-A time contains :
+A time (in a .srt file) contains :
 
 - an hour
 - a minute
@@ -45,7 +47,9 @@ composer install
 
 _Your subtitles file have to be present in the Command/input folder_
 
-* Find a translate id by searching a text or a time through the subtitles file
+_The transformed subtitles file will have the same name but in the Command/output folder_
+
+* Find an id by searching a text or a time through the subtitles file
 
 ```
 php console.php subtitler:search mySrtFile.srt --by-text=internet
@@ -69,5 +73,17 @@ php console.php subtitler:translate-time mySrtFile.srt --translate=+4h --from=45
 ## Tests
 
 ```
+* Launch all tests
 make test
+
+* Launch from @group (ex: @group myGroup)
+make group=myGroup group-test
+```
+
+## Code Style
+
+The [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) is used to have a nice code style.
+
+```
+make cs-fixer
 ```

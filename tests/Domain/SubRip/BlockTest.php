@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Domain;
+namespace Tests\Domain\SubRip;
 
-use Domain\Block;
+use Domain\SubRip\Block;
+use Domain\SubRip\Time;
 
 /**
  * Class BlockTest
@@ -69,7 +70,7 @@ Sentence 1.
 Sentence 2.
 BLOCK;
 
-        $block = Block::parseBlock($blockFormatted);
+        $block = Block::parseBlock(709, $blockFormatted);
         $this->assertEquals(709, $block->getId());
         $this->assertEquals('00:46:58,740', $block->getTimeBegin()->getFormattedTime());
         $this->assertEquals('00:47:01,299', $block->getTimeEnd()->getFormattedTime());
@@ -105,9 +106,9 @@ BLOCK;
      */
     public function testSearchByTime()
     {
-        $this->assertTrue($this->block->searchByTime('00:46:58,741'));
-        $this->assertFalse($this->block->searchByTime('00:46:57,739'));
-        $this->assertFalse($this->block->searchByTime('00:47:01,300'));
+        $this->assertTrue($this->block->searchByTime(new Time('00:46:58,741')));
+        $this->assertFalse($this->block->searchByTime(new Time('00:46:57,739')));
+        $this->assertFalse($this->block->searchByTime(new Time('00:47:01,300')));
     }
 
     /**

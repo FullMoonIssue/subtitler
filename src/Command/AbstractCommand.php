@@ -1,6 +1,8 @@
 <?php
 namespace Command;
 
+use Domain\Descriptor\DescriptorInterface;
+use Domain\Descriptor\DescriptorRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,14 +38,36 @@ class AbstractCommand extends Command
     protected $output;
 
     /**
-     * @var array
+     * @var DescriptorRegistry
      */
-    protected $allowedExtensions = ['srt'];
+    protected $descriptorRegistry;
+
+    /**
+     * @var DescriptorInterface
+     */
+    protected $descriptor;
 
     /**
      * @var string
      */
     protected $inputFile;
+
+    /**
+     * @var string
+     */
+    protected $extension;
+
+    /**
+     * AbstractCommand constructor.
+     * @param string $commandName
+     * @param DescriptorRegistry $descriptorRegistry
+     */
+    public function __construct($commandName, DescriptorRegistry $descriptorRegistry)
+    {
+        $this->descriptorRegistry = $descriptorRegistry;
+
+        parent::__construct($commandName);
+    }
 
     /**
      * {@inheritdoc}
@@ -70,18 +94,21 @@ class AbstractCommand extends Command
     protected function checkInputs()
     {
         $this->inputFile = sprintf(self::INPUT_FILE_PATH, $this->input->getArgument('input-file'));
-        if(!file_exists($this->inputFile)) {
+        if (!file_exists($this->inputFile)) {
             $this->io->error('Input file not found.');
             exit(self::ERROR_INPUT_FILE_NOT_FOUND);
-        } elseif(!in_array(($extension = pathinfo($this->inputFile)['extension']), $this->allowedExtensions, true)) {
-            $this->io->error(
-                sprintf(
-                    'The extension of the input file %s is currently not handled. Here are the ones which are : [%s]',
-                    $extension,
-                    implode(', ', $this->allowedExtensions)
-                )
-            );
-            exit(self::ERROR_EXTENSION_NOT_HANDLED);
+        } else {
+            $this->extension = pathinfo($this->inputFile)['extension'];
+            if (null === ($this->descriptor = $this->descriptorRegistry->searchDescriptor($this->extension))) {
+                $this->io->error(
+                    sprintf(
+                        'No descriptor found for the extension %s. Allowed : %s',
+                        $this->extension,
+                        implode(', ', $this->descriptorRegistry->getSupportedExtensions())
+                    )
+                );
+                exit(self::ERROR_EXTENSION_NOT_HANDLED);
+            }
         }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Action;
 
+use Domain\MatrixInterface;
+
 /**
  * Interface TransformInterface
  * @package Action
@@ -9,11 +11,11 @@ namespace Action;
 interface TransformInterface
 {
     /**
-     * @param string $inputFile
+     * @param MatrixInterface $matrix
      * @param string $translation
      * @param int $from
      * @param int $to
      * @param string $outputFile
      */
-    public function translate($inputFile, $translation, $from, $to, $outputFile);
+    public function translate(MatrixInterface $matrix, $translation, $from, $to, $outputFile);
 }

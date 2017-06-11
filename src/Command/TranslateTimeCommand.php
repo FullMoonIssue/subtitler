@@ -3,6 +3,7 @@
 namespace Command;
 
 use Action\Transform;
+use Domain\Descriptor\DescriptorRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,12 +24,13 @@ class TranslateTimeCommand extends AbstractCommand
     /**
      * TranslateTimeCommand constructor.
      * @param Transform $transform
+     * @param DescriptorRegistry $descriptorRegistry
      */
-    public function __construct(Transform $transform)
+    public function __construct(Transform $transform, DescriptorRegistry $descriptorRegistry)
     {
         $this->transform = $transform;
 
-        parent::__construct(self::COMMAND);
+        parent::__construct(self::COMMAND, $descriptorRegistry);
     }
 
     /**
@@ -53,11 +55,13 @@ class TranslateTimeCommand extends AbstractCommand
         $this->checkInputs();
 
         $to = $input->getOption('to');
-        if(null !== $to) {
+        if (null !== $to) {
             $to = (int) $to;
         }
+
+        $class = $this->descriptor->getMatrixConstructor();
         $this->transform->translate(
-            $this->inputFile,
+            $class::parseMatrix(file_get_contents($this->inputFile)),
             $input->getOption('translate'),
             (int) $input->getOption('from'),
             $to,

@@ -1,42 +1,40 @@
 <?php
 namespace Domain;
 
-use Domain\Exception\BlockException;
-
 /**
  * Class Block
  * @package Domain
  */
-class Block
+abstract class Block implements BlockInterface
 {
     /**
-     * @var Time
+     * @var TimeInterface
      */
-    private $timeBegin;
+    protected $timeBegin;
 
     /**
-     * @var Time
+     * @var TimeInterface
      */
-    private $timeEnd;
+    protected $timeEnd;
 
     /**
      * @var array
      */
-    private $lines;
+    protected $lines;
 
     /**
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * Block constructor.
-     * @param Time $timeBegin
-     * @param Time $timeEnd
+     * @param TimeInterface $timeBegin
+     * @param TimeInterface $timeEnd
      * @param array $lines
-     * @param int $id
+     * @param $id
      */
-    public function __construct(Time $timeBegin, Time $timeEnd, array $lines, $id)
+    public function __construct(TimeInterface $timeBegin, TimeInterface $timeEnd, array $lines, $id)
     {
         $this->timeBegin = $timeBegin;
         $this->timeEnd = $timeEnd;
@@ -45,7 +43,15 @@ class Block
     }
 
     /**
-     * @return Time
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getTimeBegin()
     {
@@ -53,7 +59,7 @@ class Block
     }
 
     /**
-     * @return Time
+     * @return TimeInterface
      */
     public function getTimeEnd()
     {
@@ -69,79 +75,7 @@ class Block
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFormattedBlock()
-    {
-        return
-            $this->id."\n"
-            .$this->timeBegin->getFormattedTime()
-            .' --> '
-            .$this->timeEnd->getFormattedTime()."\n"
-            .implode("\n", $this->lines)."\n";
-    }
-
-    /**
-     * @param string $text
-     * @return Block
-     */
-    public static function parseBlock($text)
-    {
-        $id = null;
-        $beginTime = null;
-        $endTime = null;
-        $lines = [];
-        foreach(preg_split("{\r\n|\n}", $text) as $cpt => $line) {
-            switch ($cpt) {
-                case 0:
-                    $id = (int) $line;
-                    if(0 === $id) { // Weird case where an unknown character is "untrimable"
-                        $id = 1;
-                    }
-                    break;
-                case 1:
-                    list($beginTime, , $endTime) = explode(' ', $line);
-                    break;
-                default:
-                    if(!empty($line)) {
-                        $lines[] = $line;
-                    }
-                    break;
-            }
-        }
-
-        if(null === $id) {
-            throw new BlockException('The id is not found');
-        }
-        if(null === $beginTime) {
-            throw new BlockException('The begin time is not found');
-        }
-        if(null === $endTime) {
-            throw new BlockException('The end time is not found');
-        }
-        if(0 === count($lines)) {
-            throw new BlockException('No lines found');
-        }
-
-        return new self(
-            new Time($beginTime),
-            new Time($endTime),
-            $lines,
-            $id
-        );
-    }
-
-    /**
-     * @param int $id
-     * @return bool
+     * {@inheritdoc}
      */
     public function searchById($id)
     {
@@ -149,15 +83,14 @@ class Block
     }
 
     /**
-     * @param string $text
-     * @return bool
+     * {@inheritdoc}
      */
     public function searchByText($text)
     {
         return 0 < count(
             array_filter(
                 $this->lines,
-                function($line) use ($text) {
+                function ($line) use ($text) {
                     return preg_match(sprintf('=%s=i', $text), $line);
                 }
             )
@@ -165,12 +98,11 @@ class Block
     }
 
     /**
-     * @param string $formattedTime
-     * @return bool
+     * {@inheritdoc}
      */
-    public function searchByTime($formattedTime)
+    public function searchByTime(TimeInterface $time)
     {
-        $searchTime = (new Time($formattedTime))->getTime();
+        $searchTime = $time->getTime();
 
         $timeBegin = $this->timeBegin->getTime();
         $timeEnd = $this->timeEnd->getTime();

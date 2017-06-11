@@ -2,7 +2,7 @@
 
 namespace Action;
 
-use Domain\Matrix;
+use Domain\MatrixInterface;
 
 /**
  * Class Transform
@@ -13,9 +13,8 @@ class Transform implements TransformInterface
     /**
      * {@inheritdoc}
      */
-    public function translate($inputFile, $translation, $from, $to, $outputFile)
+    public function translate(MatrixInterface $matrix, $translation, $from, $to, $outputFile)
     {
-        $matrix = Matrix::parseMatrix(file_get_contents($inputFile));
         $matrix->translate($translation, $from, $to);
         file_put_contents($outputFile, $matrix->getFormattedMatrix());
     }

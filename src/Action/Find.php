@@ -2,8 +2,8 @@
 
 namespace Action;
 
-use Domain\Matrix;
-use Domain\Time;
+use Domain\MatrixInterface;
+use Domain\TimeInterface;
 
 /**
  * Class Find
@@ -19,12 +19,10 @@ class Find implements FindInterface
     /**
      * {@inheritdoc}
      */
-    public function search($inputFile, $searchByText, $searchByTime)
+    public function search(MatrixInterface $matrix, $searchByText = null, TimeInterface $searchByTime = null)
     {
         $founds = [];
-        $dtSearch = (!$searchByTime ?: new Time($searchByTime));
-        $matrix = Matrix::parseMatrix(file_get_contents($inputFile));
-        foreach($matrix->getBlocks() as $block) {
+        foreach ($matrix->getBlocks() as $block) {
             if (null !== $searchByText) {
                 if ($block->searchByText($searchByText)) {
                     $founds[$block->getId()] = $block->getFormattedBlock();
@@ -34,7 +32,7 @@ class Find implements FindInterface
                     $founds[$block->getId()] = $block->getFormattedBlock();
                     break;
                 } else {
-                    if($block->getTimeBegin()->getTime() > $dtSearch->getTime()) {
+                    if ($block->getTimeBegin()->getTime() > $searchByTime->getTime()) {
                         $founds[$this->lastRecord['id']] = $this->lastRecord['block'];
                         $founds[$block->getId()] = $block->getFormattedBlock();
                         break;

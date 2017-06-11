@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Domain;
+namespace Tests\Domain\SubRip;
 
-use Domain\Time;
+use Domain\SubRip\Time;
 
 /**
  * Class TimeTest
@@ -189,7 +189,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase
     /**
      * @group Time
      * @expectedException \Domain\Exception\TimeException
-     * @expectedExceptionMessage Nope, no duration less than 0 hours is handled
+     * @expectedExceptionMessage Nope, no duration less than 0 second is handled
      */
     public function testDurationLessThan0Hour()
     {
