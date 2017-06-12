@@ -59,9 +59,8 @@ class TranslateTimeCommand extends AbstractCommand
             $to = (int) $to;
         }
 
-        $class = $this->descriptor->getMatrixConstructor();
         $this->transform->translate(
-            $class::parseMatrix(file_get_contents($this->inputFile)),
+            $this->descriptor->buildMatrix(file_get_contents($this->inputFile)),
             $input->getOption('translate'),
             (int) $input->getOption('from'),
             $to,

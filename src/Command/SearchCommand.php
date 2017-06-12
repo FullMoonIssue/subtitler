@@ -67,8 +67,11 @@ class SearchCommand extends AbstractCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->checkInputs();
-        $class = $this->descriptor->getMatrixConstructor();
-        $founds = $this->find->search($class::parseMatrix(file_get_contents($this->inputFile)), $this->searchByText, $this->searchByTime);
+        $founds = $this->find->search(
+            $this->descriptor->buildMatrix(file_get_contents($this->inputFile)),
+            $this->searchByText,
+            $this->searchByTime
+        );
         $this->displayResults($founds);
     }
 
@@ -79,8 +82,7 @@ class SearchCommand extends AbstractCommand
         $this->searchByText = $this->input->getOption('by-text');
         $this->searchByTime = $this->input->getOption('by-time');
         if (null !== $this->searchByTime) {
-            $class = $this->descriptor->getTimeConstructor();
-            $this->searchByTime = new $class($this->searchByTime);
+            $this->searchByTime = $this->descriptor->buildTime($this->searchByTime);
         }
 
         if (null === $this->searchByText && null === $this->searchByTime) {

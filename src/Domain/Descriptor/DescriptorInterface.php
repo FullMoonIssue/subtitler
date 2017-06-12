@@ -2,6 +2,9 @@
 
 namespace Domain\Descriptor;
 
+use Domain\MatrixInterface;
+use Domain\TimeInterface;
+
 /**
  * Interface DescriptorInterface
  * @package Domain\Descriptor
@@ -19,12 +22,14 @@ interface DescriptorInterface
     public function getName();
 
     /**
-     * @return string
+     * @param string $formattedTime
+     * @return TimeInterface
      */
-    public function getTimeConstructor();
+    public function buildTime($formattedTime);
 
     /**
-     * @return string
+     * @param string $contents
+     * @return MatrixInterface
      */
-    public function getMatrixConstructor();
+    public function buildMatrix($contents);
 }

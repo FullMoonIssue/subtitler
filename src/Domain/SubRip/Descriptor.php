@@ -29,16 +29,16 @@ class Descriptor implements DescriptorInterface
     /**
      * {@inheritdoc}
      */
-    public function getTimeConstructor()
+    public function buildTime($formattedTime)
     {
-        return Time::class;
+        return new Time($formattedTime);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMatrixConstructor()
+    public function buildMatrix($contents)
     {
-        return Matrix::class;
+        return Matrix::parseMatrix($contents);
     }
 }
