@@ -70,4 +70,16 @@ interface TimeInterface
      * @return $this
      */
     public function subtractMilliSeconds($nbMilliSeconds);
+
+    /**
+     * @param TimeInterface $time
+     * @return bool
+     */
+    public function isGreaterThan(TimeInterface $time);
+
+    /**
+     * @param TimeInterface $time
+     * @return bool
+     */
+    public function isGreaterOrEqualsThan(TimeInterface $time);
 }

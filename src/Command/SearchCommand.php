@@ -34,7 +34,7 @@ class SearchCommand extends AbstractCommand
     /**
      * @var Find
      */
-    private $find;
+    protected $find;
 
     /**
      * SearchCommand constructor.
@@ -67,6 +67,7 @@ class SearchCommand extends AbstractCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->checkInputs();
+
         $founds = $this->find->search(
             $this->descriptor->buildMatrix(file_get_contents($this->inputFile)),
             $this->searchByText,
@@ -81,9 +82,6 @@ class SearchCommand extends AbstractCommand
 
         $this->searchByText = $this->input->getOption('by-text');
         $this->searchByTime = $this->input->getOption('by-time');
-        if (null !== $this->searchByTime) {
-            $this->searchByTime = $this->descriptor->buildTime($this->searchByTime);
-        }
 
         if (null === $this->searchByText && null === $this->searchByTime) {
             $this->io->error('You have to provide a text or a time to do your research.');
@@ -94,6 +92,10 @@ class SearchCommand extends AbstractCommand
             $this->io->error('You have to provide either a text or a time to do your research.');
             exit(self::ERROR_MULTIPLE_TYPE_OF_SEARCH_ASSIGNED);
         }
+
+        if (null !== $this->searchByTime) {
+            $this->searchByTime = $this->descriptor->buildTime($this->searchByTime);
+        }
     }
 
     /**
@@ -103,9 +105,9 @@ class SearchCommand extends AbstractCommand
     {
         if ($this->searchByTime) {
             $this->io->title(sprintf('Search by time : %s', $this->searchByTime->getFormattedTime()));
-            if (1 === count($founds)) {
+            if (1 === ($count = count($founds))) {
                 $this->io->section('Exact block found');
-            } else {
+            } elseif(1 < $count) {
                 $this->io->section('In between block found');
             }
         } else {
@@ -129,7 +131,5 @@ class SearchCommand extends AbstractCommand
                 )
                 ->render();
         }
-
-        exit(self::DONE_WITHOUT_ERROR);
     }
 }

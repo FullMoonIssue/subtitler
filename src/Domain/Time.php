@@ -194,6 +194,31 @@ abstract class Time implements TimeInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isGreaterThan(TimeInterface $time)
+    {
+        return $this->getMicroSeconds($this) > $this->getMicroSeconds($time);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isGreaterOrEqualsThan(TimeInterface $time)
+    {
+        return $this->getMicroSeconds($this) >= $this->getMicroSeconds($time);
+    }
+
+    /**
+     * @param TimeInterface $time
+     * @return int
+     */
+    protected function getMicroSeconds(TimeInterface $time)
+    {
+        return $time->getTime()->getTimestamp() * 1000000 + (int) $time->getTime()->format('u');
+    }
+
+    /**
      * @param int $value
      * @return bool
      */
@@ -236,7 +261,8 @@ abstract class Time implements TimeInterface
             vsprintf(
                 '1970-01-01 %s:%s:%s.%s',
                 $timeParts
-            )
+            ),
+            new \DateTimeZone('UTC')
         );
     }
 }

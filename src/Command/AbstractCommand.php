@@ -6,6 +6,7 @@ use Domain\Descriptor\DescriptorRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -15,8 +16,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AbstractCommand extends Command
 {
-    const INPUT_FILE_PATH = __DIR__.'/input/%s';
-    const OUTPUT_FILE_PATH = __DIR__.'/output/%s';
+    const DEFAULT_INPUT_FOLDER_PATH = __DIR__.'/input';
+    const DEFAULT_OUTPUT_FOLDER_PATH = __DIR__.'/output';
 
     const DONE_WITHOUT_ERROR = 0;
     const ERROR_INPUT_FILE_NOT_FOUND = 400;
@@ -84,16 +85,35 @@ class AbstractCommand extends Command
      */
     public function configure()
     {
-        $this->addArgument(
-            'input-file',
-            InputArgument::REQUIRED,
-            'The file name (have to be in the Command/input folder)'
-        );
+        $this
+            ->addArgument(
+                'input-file',
+                InputArgument::REQUIRED,
+                'The file name (have to be in the Command/input folder by default)'
+            )
+            ->addOption(
+                'input-folder',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Change the destination of the input folder',
+                self::DEFAULT_INPUT_FOLDER_PATH
+            )
+            ->addOption(
+                'output-folder',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Change the destination of the output folder',
+                self::DEFAULT_OUTPUT_FOLDER_PATH
+            );
     }
 
     protected function checkInputs()
     {
-        $this->inputFile = sprintf(self::INPUT_FILE_PATH, $this->input->getArgument('input-file'));
+        $this->inputFile = sprintf(
+            '%s/%s',
+            rtrim($this->input->getOption('input-folder'), '/'),
+            $this->input->getArgument('input-file')
+        );
         if (!file_exists($this->inputFile)) {
             $this->io->error('Input file not found.');
             exit(self::ERROR_INPUT_FILE_NOT_FOUND);

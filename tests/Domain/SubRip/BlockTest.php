@@ -24,7 +24,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $timeBegin
             ->method('getTime')
-            ->willReturn(new \DateTime('1970-01-01 00:46:58.740'));
+            ->willReturn(new \DateTime('1970-01-01 00:46:58.740', new \DateTimeZone('UTC')));
         $timeBegin
             ->method('getFormattedTime')
             ->willReturn('00:46:58,740');
@@ -35,7 +35,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $timeEnd
             ->method('getTime')
-            ->willReturn(new \DateTime('1970-01-01 00:47:01.299'));
+            ->willReturn(new \DateTime('1970-01-01 00:47:01.299', new \DateTimeZone('UTC')));
         $timeEnd
             ->method('getFormattedTime')
             ->willReturn('00:47:01,299');
@@ -106,9 +106,11 @@ BLOCK;
      */
     public function testSearchByTime()
     {
-        $this->assertTrue($this->block->searchByTime(new Time('00:46:58,741')));
-        $this->assertFalse($this->block->searchByTime(new Time('00:46:57,739')));
-        $this->assertFalse($this->block->searchByTime(new Time('00:47:01,300')));
+        // Consider this test as functional to get a real result of the searchByTime method (no time mock)
+        $block = new Block(new Time('00:46:58,740'), new Time('00:47:01,299'), ['Sentence 1.'], 709);
+        $this->assertTrue($block->searchByTime(new Time('00:46:58,741')));
+        $this->assertFalse($block->searchByTime(new Time('00:46:57,739')));
+        $this->assertFalse($block->searchByTime(new Time('00:47:01,300')));
     }
 
     /**

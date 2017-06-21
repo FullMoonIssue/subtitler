@@ -2,5 +2,7 @@ src/Command/input/*
 !src/Command/input/.gitkeep
 src/Command/output/*
 !src/Command/output/.gitkeep
+tests/Fixtures/output/*
+!tests/Fixtures/output/.gitkeep
 vendor
 .php_cs.cache

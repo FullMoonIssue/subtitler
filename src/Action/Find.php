@@ -28,15 +28,17 @@ class Find implements FindInterface
                     $founds[$block->getId()] = $block->getFormattedBlock();
                 }
             } else {
+                if ($block->getTimeBegin()->isGreaterThan($searchByTime)) {
+                    if(!empty($this->lastRecord['id'])) {
+                        $founds[$this->lastRecord['id']] = $this->lastRecord['block'];
+                        $founds[$block->getId()] = $block->getFormattedBlock();
+                    }
+                    break;
+                }
                 if ($block->searchByTime($searchByTime)) {
                     $founds[$block->getId()] = $block->getFormattedBlock();
                     break;
                 } else {
-                    if ($block->getTimeBegin()->getTime() > $searchByTime->getTime()) {
-                        $founds[$this->lastRecord['id']] = $this->lastRecord['block'];
-                        $founds[$block->getId()] = $block->getFormattedBlock();
-                        break;
-                    }
                     $this->lastRecord = [
                         'id'    => $block->getId(),
                         'block' => $block->getFormattedBlock()

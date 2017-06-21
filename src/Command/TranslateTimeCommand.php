@@ -64,7 +64,11 @@ class TranslateTimeCommand extends AbstractCommand
             $input->getOption('translate'),
             (int) $input->getOption('from'),
             $to,
-            ($outputFile = sprintf(self::OUTPUT_FILE_PATH, $input->getArgument('input-file')))
+            ($outputFile = sprintf(
+                '%s/%s',
+                rtrim($input->getOption('output-folder'), '/'),
+                $input->getArgument('input-file')
+            ))
         );
 
         $this->displayResults($outputFile);
@@ -76,7 +80,5 @@ class TranslateTimeCommand extends AbstractCommand
     private function displayResults($outputFile)
     {
         $this->io->success(sprintf('The time translation is done. Your new file is here : %s', $outputFile));
-
-        exit(self::DONE_WITHOUT_ERROR);
     }
 }

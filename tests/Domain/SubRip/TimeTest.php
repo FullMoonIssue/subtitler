@@ -18,7 +18,7 @@ class TimeTest extends \PHPUnit_Framework_TestCase
         $time = new Time('00:46:58,740');
 
         $this->assertEquals(
-            (new \DateTime('1970-01-01 00:46:58.740')),
+            (new \DateTime('1970-01-01 00:46:58.740', new \DateTimeZone('UTC'))),
             $time->getTime()
         );
         $this->assertEquals(

@@ -102,15 +102,6 @@ abstract class Block implements BlockInterface
      */
     public function searchByTime(TimeInterface $time)
     {
-        $searchTime = $time->getTime();
-
-        $timeBegin = $this->timeBegin->getTime();
-        $timeEnd = $this->timeEnd->getTime();
-        // The calculation is done by converting DateTime into micro seconds
-        $msBegin = $timeBegin->getTimestamp() * 1000000 + (int) $timeBegin->format('u');
-        $msEnd = $timeEnd->getTimestamp() * 1000000 + (int) $timeEnd->format('u');
-        $msSearch = $searchTime->getTimestamp() * 1000000 + (int) $searchTime->format('u');
-
-        return $msBegin <= $msSearch && $msSearch <= $msEnd;
+        return $time->isGreaterOrEqualsThan($this->timeBegin) && $this->timeEnd->isGreaterOrEqualsThan($time);
     }
 }

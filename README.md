@@ -45,21 +45,27 @@ composer install
 
 ## Commands
 
-_Your subtitles file have to be present in the Command/input folder_
+_Your subtitles file have to be present in the Command/input folder (by default)_
 
-_The transformed subtitles file will have the same name but in the Command/output folder_
+_The transformed subtitles file will have the same name but in the Command/output folder (by default)_
 
 * Find an id by searching a text or a time through the subtitles file
 
 ```
+php console.php subtitler:search --help
+
+* Search by a text
 php console.php subtitler:search mySrtFile.srt --by-text=internet
-or
+
+* Search by a time
 php console.php subtitler:search mySrtFile.srt --by-time=00:46:40,740
 ```
 
 * Do a time translation
 
 ```
+php console.php subtitler:translate-time --help
+
 * Add two seconds for all blocks
 php console.php subtitler:translate-time mySrtFile.srt --translate=+2s
 
