@@ -6,10 +6,10 @@ use Domain\MatrixInterface;
 use Domain\TimeInterface;
 
 /**
- * Class Find
+ * Class Probe
  * @package Action
  */
-class Find implements FindInterface
+class Probe implements ProbeInterface
 {
     /**
      * @var array
@@ -29,7 +29,7 @@ class Find implements FindInterface
                 }
             } else {
                 if ($block->getTimeBegin()->isGreaterThan($searchByTime)) {
-                    if(!empty($this->lastRecord['id'])) {
+                    if (!empty($this->lastRecord['id'])) {
                         $founds[$this->lastRecord['id']] = $this->lastRecord['block'];
                         $founds[$block->getId()] = $block->getFormattedBlock();
                     }

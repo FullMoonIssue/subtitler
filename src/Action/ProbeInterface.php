@@ -6,10 +6,10 @@ use Domain\MatrixInterface;
 use Domain\TimeInterface;
 
 /**
- * Interface FindInterface
+ * Interface ProbeInterface
  * @package Action
  */
-interface FindInterface
+interface ProbeInterface
 {
     /**
      * @param MatrixInterface $matrix

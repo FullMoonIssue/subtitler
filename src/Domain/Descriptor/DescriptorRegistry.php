@@ -54,7 +54,7 @@ class DescriptorRegistry
     {
         $extensions = [];
         foreach ($this->descriptors as $descriptor) {
-            $extensions = array_merge($extensions, $descriptor->extensionsSupported());
+            $extensions = array_merge($extensions, $descriptor->getExtensions());
         }
 
         return $extensions;

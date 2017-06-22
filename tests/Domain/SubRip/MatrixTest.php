@@ -3,12 +3,13 @@
 namespace Tests\Domain\SubRip;
 
 use Domain\SubRip\Matrix;
+use Tests\AbstractTestConfig;
 
 /**
  * Class MatrixTest
  * @package Tests\Domain
  */
-class MatrixTest extends \PHPUnit_Framework_TestCase
+class MatrixTest extends AbstractTestConfig
 {
     /**
      * @var Matrix
@@ -38,7 +39,7 @@ BLOCK;
 
     public function setUp()
     {
-        $fixtureContent = file_get_contents(__DIR__.'/../../Fixtures/fixture.srt');
+        $fixtureContent = file_get_contents(self::FIXTURES_FULL_PATH);
         $this->matrix = Matrix::parseMatrix($fixtureContent);
     }
 

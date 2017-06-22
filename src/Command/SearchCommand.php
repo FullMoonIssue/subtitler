@@ -2,7 +2,7 @@
 
 namespace Command;
 
-use Action\Find;
+use Action\Probe;
 use Domain\Descriptor\DescriptorRegistry;
 use Domain\TimeInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -32,18 +32,18 @@ class SearchCommand extends AbstractCommand
     protected $searchByTime;
 
     /**
-     * @var Find
+     * @var Probe
      */
-    protected $find;
+    protected $probe;
 
     /**
      * SearchCommand constructor.
-     * @param Find $find
+     * @param Probe $probe
      * @param DescriptorRegistry $descriptorRegistry
      */
-    public function __construct(Find $find, DescriptorRegistry $descriptorRegistry)
+    public function __construct(Probe $probe, DescriptorRegistry $descriptorRegistry)
     {
-        $this->find = $find;
+        $this->probe = $probe;
 
         parent::__construct(self::COMMAND, $descriptorRegistry);
     }
@@ -66,36 +66,47 @@ class SearchCommand extends AbstractCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->checkInputs();
+        if(self::DONE_WITHOUT_ERROR === ($errorCode = $this->checkInputs())) {
+            $founds = $this->probe->search(
+                $this->descriptor->buildMatrix(file_get_contents($this->inputFile)),
+                $this->searchByText,
+                $this->searchByTime
+            );
+            $this->displayResults($founds);
 
-        $founds = $this->find->search(
-            $this->descriptor->buildMatrix(file_get_contents($this->inputFile)),
-            $this->searchByText,
-            $this->searchByTime
-        );
-        $this->displayResults($founds);
+            return self::DONE_WITHOUT_ERROR;
+        }
+
+        return $errorCode;
     }
 
+    /**
+     * @return int
+     */
     protected function checkInputs()
     {
-        parent::checkInputs();
+        if(self::DONE_WITHOUT_ERROR !== ($errorCode = parent::checkInputs())) {
+            return $errorCode;
+        }
 
         $this->searchByText = $this->input->getOption('by-text');
         $this->searchByTime = $this->input->getOption('by-time');
 
         if (null === $this->searchByText && null === $this->searchByTime) {
             $this->io->error('You have to provide a text or a time to do your research.');
-            exit(self::ERROR_NO_TYPE_OF_SEARCH_ASSIGNED);
+            return self::ERROR_NO_TYPE_OF_SEARCH_ASSIGNED;
         }
 
         if (null !== $this->searchByText && null !== $this->searchByTime) {
             $this->io->error('You have to provide either a text or a time to do your research.');
-            exit(self::ERROR_MULTIPLE_TYPE_OF_SEARCH_ASSIGNED);
+            return self::ERROR_MULTIPLE_TYPE_OF_SEARCH_ASSIGNED;
         }
 
         if (null !== $this->searchByTime) {
             $this->searchByTime = $this->descriptor->buildTime($this->searchByTime);
         }
+
+        return self::DONE_WITHOUT_ERROR;
     }
 
     /**
@@ -107,7 +118,7 @@ class SearchCommand extends AbstractCommand
             $this->io->title(sprintf('Search by time : %s', $this->searchByTime->getFormattedTime()));
             if (1 === ($count = count($founds))) {
                 $this->io->section('Exact block found');
-            } elseif(1 < $count) {
+            } elseif (1 < $count) {
                 $this->io->section('In between block found');
             }
         } else {

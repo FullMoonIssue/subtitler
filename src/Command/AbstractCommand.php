@@ -107,6 +107,9 @@ class AbstractCommand extends Command
             );
     }
 
+    /**
+     * @return int
+     */
     protected function checkInputs()
     {
         $this->inputFile = sprintf(
@@ -116,7 +119,8 @@ class AbstractCommand extends Command
         );
         if (!file_exists($this->inputFile)) {
             $this->io->error('Input file not found.');
-            exit(self::ERROR_INPUT_FILE_NOT_FOUND);
+
+            return self::ERROR_INPUT_FILE_NOT_FOUND;
         } else {
             $this->extension = pathinfo($this->inputFile)['extension'];
             if (null === ($this->descriptor = $this->descriptorRegistry->searchDescriptor($this->extension))) {
@@ -127,8 +131,11 @@ class AbstractCommand extends Command
                         implode(', ', $this->descriptorRegistry->getSupportedExtensions())
                     )
                 );
-                exit(self::ERROR_EXTENSION_NOT_HANDLED);
+
+                return self::ERROR_EXTENSION_NOT_HANDLED;
             }
         }
+
+        return self::DONE_WITHOUT_ERROR;
     }
 }

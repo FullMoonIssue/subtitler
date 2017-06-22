@@ -2,63 +2,45 @@
 
 namespace Tests\Command;
 
-use Action\Find;
-use Action\Transform;
-use Command\SearchCommand;
-use Command\TranslateTimeCommand;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class SearchCommandTest
  * @package Tests\Command
  */
-class SearchCommandTest extends \PHPUnit_Framework_TestCase
+class SearchCommandTest extends AbstractCommandTest
 {
     /**
-     * @var Application
+     * @group SearchCommand
      */
-    protected static $application;
-
-    public static function setUpBeforeClass()
+    public function testWrongCountOfArguments()
     {
-        $container = include __DIR__ . '/../../container.php';
-        self::$application = new Application();
-        self::$application->add(new TranslateTimeCommand(new Transform(), $container['descriptor_registry']));
-        self::$application->add(new SearchCommand(new Find(), $container['descriptor_registry']));
-    }
+        $command = self::$application->find('subtitler:search');
+        $commandTester = new CommandTester($command);
+        $commandParameters = [
+            'command'        => $command->getName(),
+            'input-file'     => self::FIXTURES_FILE_NAME,
+            '--input-folder' => self::FIXTURES_INPUT_FOLDER
+        ];
 
-//    /**
-//     * @group SearchCommand
-//     */
-//    public function testTooManyArguments()
-//    {
-//        $command = self::$application->find('subtitler:search');
-//        $commandTester = new CommandTester($command);
-//        $commandParameters = [
-//            'command'        => $command->getName(),
-//            'input-file'     => 'fixture.srt',
-//            '--input-folder' => __DIR__ . '/../Fixtures'
-//        ];
-//
-//        $this->assertEquals(
-//            300,
-//            $commandTester->execute($commandParameters)
-//        );
-//
-//        $this->assertEquals(
-//            301,
-//            $commandTester->execute(
-//                array_merge(
-//                    $commandParameters,
-//                    [
-//                        '--by-text' => 'Sentence',
-//                        '--by-time' => '00:00:01,300'
-//                    ]
-//                )
-//            )
-//        );
-//    }
+        $this->assertEquals(
+            300,
+            $commandTester->execute($commandParameters)
+        );
+
+        $this->assertEquals(
+            301,
+            $commandTester->execute(
+                array_merge(
+                    $commandParameters,
+                    [
+                        '--by-text' => 'Sentence',
+                        '--by-time' => '00:00:01,300'
+                    ]
+                )
+            )
+        );
+    }
 
     /**
      * @group SearchCommand
@@ -70,8 +52,8 @@ class SearchCommandTest extends \PHPUnit_Framework_TestCase
 
         $commandParameters = [
             'command'        => $command->getName(),
-            'input-file'     => 'fixture.srt',
-            '--input-folder' => __DIR__ . '/../Fixtures'
+            'input-file'     => self::FIXTURES_FILE_NAME,
+            '--input-folder' => self::FIXTURES_INPUT_FOLDER
         ];
 
         // --- Existing text
@@ -136,9 +118,9 @@ DISPLAY;
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command'        => $command->getName(),
-            'input-file'     => 'fixture.srt',
+            'input-file'     => self::FIXTURES_FILE_NAME,
+            '--input-folder' => self::FIXTURES_INPUT_FOLDER,
             '--by-time'      => '00:00:01,300',
-            '--input-folder' => __DIR__ . '/../Fixtures'
         ]);
 
         $output = $commandTester->getDisplay();
