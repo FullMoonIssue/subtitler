@@ -2,7 +2,7 @@
 
 namespace Domain\SubRip;
 
-use Domain\Matrix as BaseMatrix;
+use Domain\Matrix\Matrix as BaseMatrix;
 
 /**
  * Class Matrix

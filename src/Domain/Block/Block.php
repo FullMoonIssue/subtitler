@@ -1,11 +1,14 @@
 <?php
-namespace Domain;
+
+namespace Domain\Block;
+
+use Domain\Time\TimeInterface;
 
 /**
  * Class Block
  * @package Domain
  */
-abstract class Block implements BlockInterface
+abstract class Block implements BlockInterface, ProbableInterface
 {
     /**
      * @var TimeInterface
@@ -59,7 +62,7 @@ abstract class Block implements BlockInterface
     }
 
     /**
-     * @return TimeInterface
+     * {@inheritdoc}
      */
     public function getTimeEnd()
     {
@@ -67,7 +70,7 @@ abstract class Block implements BlockInterface
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getLines()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain;
+namespace Domain\Time;
 
 use Domain\Exception\TimeException;
 

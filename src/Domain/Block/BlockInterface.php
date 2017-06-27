@@ -1,9 +1,11 @@
 <?php
-namespace Domain;
+namespace Domain\Block;
+
+use Domain\Time\TimeInterface;
 
 /**
  * Interface BlockInterface
- * @package Domain
+ * @package Domain\Block
  */
 interface BlockInterface
 {
@@ -30,20 +32,12 @@ interface BlockInterface
     public function getTimeBegin();
 
     /**
-     * @param int $id
-     * @return bool
+     * @return TimeInterface
      */
-    public function searchById($id);
+    public function getTimeEnd();
 
     /**
-     * @param string $text
-     * @return bool
+     * @return array
      */
-    public function searchByText($text);
-
-    /**
-     * @param TimeInterface $time
-     * @return bool
-     */
-    public function searchByTime(TimeInterface $time);
+    public function getLines();
 }

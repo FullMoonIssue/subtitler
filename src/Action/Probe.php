@@ -2,8 +2,8 @@
 
 namespace Action;
 
-use Domain\MatrixInterface;
-use Domain\TimeInterface;
+use Domain\Matrix\MatrixInterface;
+use Domain\Time\TimeInterface;
 
 /**
  * Class Probe

@@ -5,7 +5,7 @@ namespace Tests\Action;
 use Action\Probe;
 use Domain\SubRip\Matrix;
 use Domain\SubRip\Time;
-use Domain\TimeInterface;
+use Domain\Time\TimeInterface;
 use Tests\AbstractTestConfig;
 
 /**
@@ -30,8 +30,7 @@ class ProbeTest extends AbstractTestConfig
         TimeInterface $exactlyFirstTime,
         TimeInterface $justAfterFirstTime,
         TimeInterface $afterLastTime
-    )
-    {
+    ) {
         $probe = new Probe();
         $matrix = Matrix::parseMatrix(file_get_contents($file));
 

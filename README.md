@@ -49,7 +49,7 @@ _Your subtitles file have to be present in the Command/input folder (by default)
 
 _The transformed subtitles file will have the same name but in the Command/output folder (by default)_
 
-* Find an id by searching a text or a time through the subtitles file
+* Find a block id by searching a text or a time through the subtitles file
 
 ```
 php console.php subtitler:search --help
@@ -82,7 +82,7 @@ php console.php subtitler:translate-time mySrtFile.srt --translate=+4h --from=45
 * Launch all tests
 make test
 
-* Launch from @group (ex: @group myGroup)
+* Launch from phpunit's @group (ex: @group myGroup)
 make group=myGroup group-test
 ```
 

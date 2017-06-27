@@ -1,7 +1,7 @@
 <?php
 namespace Domain\SubRip;
 
-use Domain\Block as BaseBlock;
+use Domain\Block\Block as BaseBlock;
 use Domain\Exception\BlockException;
 
 /**

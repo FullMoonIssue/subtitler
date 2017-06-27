@@ -19,7 +19,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $timeBegin = $this
-            ->getMockBuilder('Domain\Time')
+            ->getMockBuilder('Domain\Time\Time')
             ->disableOriginalConstructor()
             ->getMock();
         $timeBegin
@@ -30,7 +30,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             ->willReturn('00:46:58,740');
 
         $timeEnd = $this
-            ->getMockBuilder('Domain\Time')
+            ->getMockBuilder('Domain\Time\Time')
             ->disableOriginalConstructor()
             ->getMock();
         $timeEnd

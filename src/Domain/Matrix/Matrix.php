@@ -1,6 +1,7 @@
 <?php
-namespace Domain;
+namespace Domain\Matrix;
 
+use Domain\Block\BlockInterface;
 use Domain\Exception\MatrixException;
 
 /**

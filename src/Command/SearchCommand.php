@@ -4,7 +4,7 @@ namespace Command;
 
 use Action\Probe;
 use Domain\Descriptor\DescriptorRegistry;
-use Domain\TimeInterface;
+use Domain\Time\TimeInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -66,7 +66,7 @@ class SearchCommand extends AbstractCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if(self::DONE_WITHOUT_ERROR === ($errorCode = $this->checkInputs())) {
+        if (self::DONE_WITHOUT_ERROR === ($errorCode = $this->checkInputs())) {
             $founds = $this->probe->search(
                 $this->descriptor->buildMatrix(file_get_contents($this->inputFile)),
                 $this->searchByText,
@@ -85,7 +85,7 @@ class SearchCommand extends AbstractCommand
      */
     protected function checkInputs()
     {
-        if(self::DONE_WITHOUT_ERROR !== ($errorCode = parent::checkInputs())) {
+        if (self::DONE_WITHOUT_ERROR !== ($errorCode = parent::checkInputs())) {
             return $errorCode;
         }
 

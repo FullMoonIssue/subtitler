@@ -1,6 +1,9 @@
 <?php
 
-namespace Domain;
+namespace Domain\Matrix;
+
+use Domain\Block\BlockInterface;
+use Domain\Block\ProbableInterface;
 
 /**
  * Interface MatrixInterface
@@ -15,7 +18,7 @@ interface MatrixInterface
     public static function parseMatrix($contents);
 
     /**
-     * @return BlockInterface[]
+     * @return BlockInterface[]|ProbableInterface[]
      */
     public function getBlocks();
 

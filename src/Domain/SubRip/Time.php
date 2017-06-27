@@ -2,7 +2,7 @@
 
 namespace Domain\SubRip;
 
-use Domain\Time as BaseTime;
+use Domain\Time\Time as BaseTime;
 
 /**
  * Class Time
