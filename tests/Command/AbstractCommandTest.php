@@ -3,7 +3,6 @@
 namespace Tests\Command;
 
 use Action\Probe;
-use Action\Transform;
 use Command\SearchCommand;
 use Command\TranslateTimeCommand;
 use Symfony\Component\Console\Application;
@@ -25,7 +24,7 @@ class AbstractCommandTest extends AbstractTestConfig
     {
         $container = include __DIR__ . '/../../container.php';
         self::$application = new Application();
-        self::$application->add(new TranslateTimeCommand(new Transform(), $container['descriptor_registry']));
+        self::$application->add(new TranslateTimeCommand($container['descriptor_registry']));
         self::$application->add(new SearchCommand(new Probe(), $container['descriptor_registry']));
     }
 

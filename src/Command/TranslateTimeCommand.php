@@ -2,7 +2,6 @@
 
 namespace Command;
 
-use Action\Transform;
 use Domain\Descriptor\DescriptorRegistry;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,19 +16,12 @@ class TranslateTimeCommand extends AbstractCommand
     const COMMAND = 'subtitler:translate-time';
 
     /**
-     * @var Transform
-     */
-    private $transform;
-
-    /**
      * TranslateTimeCommand constructor.
-     * @param Transform $transform
+     *
      * @param DescriptorRegistry $descriptorRegistry
      */
-    public function __construct(Transform $transform, DescriptorRegistry $descriptorRegistry)
+    public function __construct(DescriptorRegistry $descriptorRegistry)
     {
-        $this->transform = $transform;
-
         parent::__construct(self::COMMAND, $descriptorRegistry);
     }
 
@@ -59,16 +51,18 @@ class TranslateTimeCommand extends AbstractCommand
             $to = (int) $to;
         }
 
-        $this->transform->translate(
-            $this->descriptor->buildMatrix(file_get_contents($this->inputFile)),
-            $input->getOption('translate'),
-            (int) $input->getOption('from'),
-            $to,
+        $matrix = $this
+            ->descriptor
+            ->buildMatrix(file_get_contents($this->inputFile));
+
+        $matrix->translate($input->getOption('translate'), (int) $input->getOption('from'), $to);
+        file_put_contents(
             ($outputFile = sprintf(
                 '%s/%s',
                 rtrim($input->getOption('output-folder'), '/'),
                 $input->getArgument('input-file')
-            ))
+            )),
+            $matrix->getFormattedMatrix()
         );
 
         $this->displayResults($outputFile);

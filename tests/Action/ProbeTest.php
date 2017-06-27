@@ -30,7 +30,8 @@ class ProbeTest extends AbstractTestConfig
         TimeInterface $exactlyFirstTime,
         TimeInterface $justAfterFirstTime,
         TimeInterface $afterLastTime
-    ) {
+    )
+    {
         $probe = new Probe();
         $matrix = Matrix::parseMatrix(file_get_contents($file));
 
