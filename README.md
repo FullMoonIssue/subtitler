@@ -2,9 +2,18 @@
 
 This project aims to manage the subtitles time translations.
 
-The supported subtitles extension is .srt.
+The supported subtitles extension is .srt (for the moment).
 
 ## Domain
+
+### Time
+
+A time (in a .srt file) contains :
+
+- a number of hour
+- a number of minute
+- a number of second
+- a number of millisecond
 
 ### Block
 
@@ -15,13 +24,6 @@ A block (in a .srt file) is formed with :
 - an ending time
 - one or two lines of text
 - an empty line
-
-A time (in a .srt file) contains :
-
-- an hour
-- a minute
-- a second
-- a millisecond
 
 The block textual representation will looks like this :
 

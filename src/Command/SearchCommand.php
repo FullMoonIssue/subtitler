@@ -130,7 +130,7 @@ class SearchCommand extends AbstractCommand
         } else {
             $table = new Table($this->output);
             $table
-                ->setHeaders(['Id', 'Block'])
+                ->setHeaders(['Block id', 'Block'])
                 ->setRows(
                     array_map(
                         function ($id, $block) {
