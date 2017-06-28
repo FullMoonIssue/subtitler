@@ -2,6 +2,7 @@
 
 namespace Domain\SubRip;
 
+use Domain\Block\BlockFilterIterator;
 use Domain\Matrix\Matrix as BaseMatrix;
 
 /**
@@ -15,13 +16,15 @@ class Matrix extends BaseMatrix
      */
     public static function parseMatrix($contents)
     {
-        $blocks = [];
         $numberBlock = 0;
-        foreach (preg_split("{\r\n\r\n|\n\n}", $contents) as $block) {
-            if (!empty($block)) {
-                $blocks[] = Block::parseBlock(++$numberBlock, trim($block));
-            }
-        }
+        $blocks = array_map(
+            function($formattedBlock) use (&$numberBlock) {
+                return Block::parseBlock(++$numberBlock, trim($formattedBlock));
+            },
+            iterator_to_array(new BlockFilterIterator(
+                (new \ArrayObject(preg_split("{\r\n\r\n|\n\n}", $contents)))->getIterator()
+            ))
+        );
 
         return new self($blocks);
     }
