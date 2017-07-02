@@ -2,8 +2,7 @@
 
 namespace Domain\Matrix;
 
-use Domain\Block\BlockInterface;
-use Domain\Block\ProbableInterface;
+use Domain\Block\ProbableBlockInterface;
 
 /**
  * Interface MatrixInterface
@@ -18,7 +17,7 @@ interface MatrixInterface
     public static function parseMatrix($contents);
 
     /**
-     * @return BlockInterface[]|ProbableInterface[]
+     * @return ProbableBlockInterface[]
      */
     public function getBlocks();
 

@@ -82,4 +82,10 @@ interface TimeInterface
      * @return bool
      */
     public function isGreaterOrEqualsThan(TimeInterface $time);
+
+    /**
+     * @param TimeInterface $time
+     * @return bool
+     */
+    public function isLesserThan(TimeInterface $time);
 }

@@ -210,6 +210,14 @@ abstract class Time implements TimeInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function isLesserThan(TimeInterface $time)
+    {
+        return $this->getMicroSeconds($this) < $this->getMicroSeconds($time);
+    }
+
+    /**
      * @param TimeInterface $time
      * @return int
      */

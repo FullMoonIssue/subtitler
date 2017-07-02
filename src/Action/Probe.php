@@ -2,6 +2,9 @@
 
 namespace Action;
 
+use Domain\Block\ProbableBlockInterface;
+use Domain\Block\TextualSearchIterator;
+use Domain\Block\TimeSearchIterator;
 use Domain\Matrix\MatrixInterface;
 use Domain\Time\TimeInterface;
 
@@ -12,39 +15,21 @@ use Domain\Time\TimeInterface;
 class Probe implements ProbeInterface
 {
     /**
-     * @var array
-     */
-    private $lastRecord;
-
-    /**
      * {@inheritdoc}
      */
     public function search(MatrixInterface $matrix, $searchByText = null, TimeInterface $searchByTime = null)
     {
         $founds = [];
-        foreach ($matrix->getBlocks() as $block) {
-            if (null !== $searchByText) {
-                if ($block->searchByText($searchByText)) {
-                    $founds[$block->getId()] = $block->getFormattedBlock();
-                }
-            } else {
-                if ($block->getTimeBegin()->isGreaterThan($searchByTime)) {
-                    if (!empty($this->lastRecord['id'])) {
-                        $founds[$this->lastRecord['id']] = $this->lastRecord['block'];
-                        $founds[$block->getId()] = $block->getFormattedBlock();
-                    }
-                    break;
-                }
-                if ($block->searchByTime($searchByTime)) {
-                    $founds[$block->getId()] = $block->getFormattedBlock();
-                    break;
-                } else {
-                    $this->lastRecord = [
-                        'id'    => $block->getId(),
-                        'block' => $block->getFormattedBlock()
-                    ];
-                }
-            }
+        $iterator = (
+            !$searchByText
+            ? new TimeSearchIterator(new \ArrayIterator($matrix->getBlocks()), $searchByTime)
+            : new TextualSearchIterator(new \ArrayIterator($matrix->getBlocks()), $searchByText)
+        );
+
+        $block = null;
+        /** @var ProbableBlockInterface $block */
+        foreach($iterator as $block) {
+            $founds[$block->getId()] = $block->getFormattedBlock();
         }
 
         return $founds;

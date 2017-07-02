@@ -12,7 +12,7 @@ interface BlockInterface
     /**
      * @param int $numberBlock
      * @param string $text
-     * @return mixed
+     * @return ProbableBlockInterface
      */
     public static function parseBlock($numberBlock, $text);
 

@@ -22,7 +22,7 @@ class Matrix extends BaseMatrix
                 return Block::parseBlock(++$numberBlock, trim($formattedBlock));
             },
             iterator_to_array(new BlockFilterIterator(
-                (new \ArrayObject(preg_split("{\r\n\r\n|\n\n}", $contents)))->getIterator()
+                (new \ArrayIterator(preg_split("{\r\n\r\n|\n\n}", $contents)))
             ))
         );
 
