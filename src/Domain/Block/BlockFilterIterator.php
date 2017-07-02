@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Block;
 
 /**
@@ -11,6 +12,6 @@ class BlockFilterIterator extends \FilterIterator
      */
     public function accept()
     {
-        return (!empty($this->getInnerIterator()->current()));
+        return !empty($this->getInnerIterator()->current());
     }
 }

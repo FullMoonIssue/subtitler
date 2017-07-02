@@ -10,7 +10,6 @@ use Domain\Time\TimeInterface;
 
 /**
  * Class Probe
- * @package Action
  */
 class Probe implements ProbeInterface
 {
@@ -28,7 +27,7 @@ class Probe implements ProbeInterface
 
         $block = null;
         /** @var ProbableBlockInterface $block */
-        foreach($iterator as $block) {
+        foreach ($iterator as $block) {
             $founds[$block->getId()] = $block->getFormattedBlock();
         }
 

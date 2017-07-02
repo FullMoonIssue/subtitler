@@ -6,7 +6,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Class SearchCommandTest
- * @package Tests\Command
  */
 class SearchCommandTest extends AbstractCommandTest
 {
@@ -18,9 +17,9 @@ class SearchCommandTest extends AbstractCommandTest
         $command = self::$application->find('subtitler:search');
         $commandTester = new CommandTester($command);
         $commandParameters = [
-            'command'        => $command->getName(),
-            'input-file'     => self::FIXTURES_FILE_NAME,
-            '--input-folder' => self::FIXTURES_INPUT_FOLDER
+            'command' => $command->getName(),
+            'input-file' => self::FIXTURES_FILE_NAME,
+            '--input-folder' => self::FIXTURES_INPUT_FOLDER,
         ];
 
         $this->assertEquals(
@@ -35,7 +34,7 @@ class SearchCommandTest extends AbstractCommandTest
                     $commandParameters,
                     [
                         '--by-text' => 'Sentence',
-                        '--by-time' => '00:00:01,300'
+                        '--by-time' => '00:00:01,300',
                     ]
                 )
             )
@@ -51,9 +50,9 @@ class SearchCommandTest extends AbstractCommandTest
         $commandTester = new CommandTester($command);
 
         $commandParameters = [
-            'command'        => $command->getName(),
-            'input-file'     => self::FIXTURES_FILE_NAME,
-            '--input-folder' => self::FIXTURES_INPUT_FOLDER
+            'command' => $command->getName(),
+            'input-file' => self::FIXTURES_FILE_NAME,
+            '--input-folder' => self::FIXTURES_INPUT_FOLDER,
         ];
 
         // --- Existing text
@@ -117,10 +116,10 @@ DISPLAY;
         $command = self::$application->find('subtitler:search');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'command'        => $command->getName(),
-            'input-file'     => self::FIXTURES_FILE_NAME,
+            'command' => $command->getName(),
+            'input-file' => self::FIXTURES_FILE_NAME,
             '--input-folder' => self::FIXTURES_INPUT_FOLDER,
-            '--by-time'      => '00:00:01,300',
+            '--by-time' => '00:00:01,300',
         ]);
 
         $output = $commandTester->getDisplay();

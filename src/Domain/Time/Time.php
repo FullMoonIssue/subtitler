@@ -16,6 +16,7 @@ abstract class Time implements TimeInterface
 
     /**
      * Time constructor.
+     *
      * @param string $formattedTime
      */
     public function __construct($formattedTime)
@@ -219,6 +220,7 @@ abstract class Time implements TimeInterface
 
     /**
      * @param TimeInterface $time
+     *
      * @return int
      */
     protected function getMicroSeconds(TimeInterface $time)
@@ -228,11 +230,12 @@ abstract class Time implements TimeInterface
 
     /**
      * @param int $value
+     *
      * @return bool
      */
     protected function isPositiveValue($value)
     {
-        return (0 < $value);
+        return 0 < $value;
     }
 
     /**

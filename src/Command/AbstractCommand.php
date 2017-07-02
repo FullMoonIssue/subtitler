@@ -1,4 +1,5 @@
 <?php
+
 namespace Command;
 
 use Domain\Descriptor\DescriptorInterface;
@@ -12,7 +13,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class AbstractCommand
- * @package Command
  */
 class AbstractCommand extends Command
 {
@@ -60,7 +60,8 @@ class AbstractCommand extends Command
 
     /**
      * AbstractCommand constructor.
-     * @param string $commandName
+     *
+     * @param string             $commandName
      * @param DescriptorRegistry $descriptorRegistry
      */
     public function __construct($commandName, DescriptorRegistry $descriptorRegistry)

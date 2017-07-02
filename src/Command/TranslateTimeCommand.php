@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class TranslateTimeCommand
- * @package Domain\Command
  */
 class TranslateTimeCommand extends AbstractCommand
 {

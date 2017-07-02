@@ -11,7 +11,6 @@ use Tests\AbstractTestConfig;
 
 /**
  * Class AbstractCommandTest
- * @package Tests\Command
  */
 class AbstractCommandTest extends AbstractTestConfig
 {
@@ -22,7 +21,7 @@ class AbstractCommandTest extends AbstractTestConfig
 
     public static function setUpBeforeClass()
     {
-        $container = include __DIR__ . '/../../container.php';
+        $container = include __DIR__.'/../../container.php';
         self::$application = new Application();
         self::$application->add(new TranslateTimeCommand($container['descriptor_registry']));
         self::$application->add(new SearchCommand(new Probe(), $container['descriptor_registry']));
@@ -36,9 +35,9 @@ class AbstractCommandTest extends AbstractTestConfig
         $command = self::$application->find('subtitler:search');
         $commandTester = new CommandTester($command);
         $commandParameters = [
-            'command'        => $command->getName(),
-            'input-file'     => 'unexisting_file.srt',
-            '--input-folder' => self::FIXTURES_INPUT_FOLDER
+            'command' => $command->getName(),
+            'input-file' => 'unexisting_file.srt',
+            '--input-folder' => self::FIXTURES_INPUT_FOLDER,
         ];
 
         $this->assertEquals(
@@ -55,9 +54,9 @@ class AbstractCommandTest extends AbstractTestConfig
         $command = self::$application->find('subtitler:search');
         $commandTester = new CommandTester($command);
         $commandParameters = [
-            'command'        => $command->getName(),
-            'input-file'     => 'fixtures.not',
-            '--input-folder' => self::FIXTURES_INPUT_FOLDER
+            'command' => $command->getName(),
+            'input-file' => 'fixtures.not',
+            '--input-folder' => self::FIXTURES_INPUT_FOLDER,
         ];
 
         $this->assertEquals(

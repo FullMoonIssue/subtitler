@@ -1,9 +1,9 @@
 <?php
+
 namespace Domain\Block;
 
 /**
  * Class TextualSearchIterator
- * @package Domain\Block
  */
 class TextualSearchIterator extends \FilterIterator
 {
@@ -14,8 +14,9 @@ class TextualSearchIterator extends \FilterIterator
 
     /**
      * TextualSearchIterator constructor.
+     *
      * @param \Iterator $iterator
-     * @param string $text
+     * @param string    $text
      */
     public function __construct(\Iterator $iterator, $text)
     {

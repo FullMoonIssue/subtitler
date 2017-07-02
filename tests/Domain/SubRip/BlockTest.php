@@ -7,7 +7,6 @@ use Domain\SubRip\Time;
 
 /**
  * Class BlockTest
- * @package Tests\Domain
  */
 class BlockTest extends \PHPUnit_Framework_TestCase
 {
@@ -77,7 +76,7 @@ BLOCK;
         $this->assertEquals(
             [
                 'Sentence 1.',
-                'Sentence 2.'
+                'Sentence 2.',
             ],
             $block->getLines()
         );
@@ -86,7 +85,7 @@ BLOCK;
         $this->assertNotEquals('12:47:01,299', $block->getTimeEnd()->getFormattedTime());
         $this->assertNotEquals(
             [
-                'Wrong sentence'
+                'Wrong sentence',
             ],
             $block->getLines()
         );

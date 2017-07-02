@@ -7,7 +7,6 @@ use Tests\AbstractTestConfig;
 
 /**
  * Class MatrixTest
- * @package Tests\Domain
  */
 class MatrixTest extends AbstractTestConfig
 {
@@ -127,9 +126,9 @@ Sentence 6
 BLOCK;
 
         $this->assertEquals($matrixFormatted, $this->matrix->getFormattedMatrix());
-        
+
         $this->matrix->translate('-1h', 1, 1);
-        
+
         $this->assertEquals($this->originalFormattedMatrix, $this->matrix->getFormattedMatrix());
 
         // --- Translate minutes

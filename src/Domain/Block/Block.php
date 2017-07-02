@@ -6,7 +6,6 @@ use Domain\Time\TimeInterface;
 
 /**
  * Class Block
- * @package Domain
  */
 abstract class Block implements BlockInterface, ProbableInterface
 {
@@ -32,9 +31,10 @@ abstract class Block implements BlockInterface, ProbableInterface
 
     /**
      * Block constructor.
+     *
      * @param TimeInterface $timeBegin
      * @param TimeInterface $timeEnd
-     * @param array $lines
+     * @param array         $lines
      * @param $id
      */
     public function __construct(TimeInterface $timeBegin, TimeInterface $timeEnd, array $lines, $id)
@@ -82,7 +82,7 @@ abstract class Block implements BlockInterface, ProbableInterface
      */
     public function searchById($id)
     {
-        return ($this->id === $id);
+        return $this->id === $id;
     }
 
     /**

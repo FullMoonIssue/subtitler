@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class SearchCommand
- * @package Domain\Command
  */
 class SearchCommand extends AbstractCommand
 {
@@ -38,7 +37,8 @@ class SearchCommand extends AbstractCommand
 
     /**
      * SearchCommand constructor.
-     * @param Probe $probe
+     *
+     * @param Probe              $probe
      * @param DescriptorRegistry $descriptorRegistry
      */
     public function __construct(Probe $probe, DescriptorRegistry $descriptorRegistry)
@@ -94,11 +94,13 @@ class SearchCommand extends AbstractCommand
 
         if (null === $this->searchByText && null === $this->searchByTime) {
             $this->io->error('You have to provide a text or a time to do your research.');
+
             return self::ERROR_NO_TYPE_OF_SEARCH_ASSIGNED;
         }
 
         if (null !== $this->searchByText && null !== $this->searchByTime) {
             $this->io->error('You have to provide either a text or a time to do your research.');
+
             return self::ERROR_MULTIPLE_TYPE_OF_SEARCH_ASSIGNED;
         }
 

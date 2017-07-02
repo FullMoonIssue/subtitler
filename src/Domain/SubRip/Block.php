@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\SubRip;
 
 use Domain\Block\Block as BaseBlock;
@@ -6,7 +7,6 @@ use Domain\Exception\BlockException;
 
 /**
  * Class Block
- * @package Domain\SubRip
  */
 class Block extends BaseBlock
 {

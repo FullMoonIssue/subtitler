@@ -6,7 +6,6 @@ use Domain\Descriptor\DescriptorInterface;
 
 /**
  * Class Descriptor
- * @package Domain\SubRip
  */
 class Descriptor implements DescriptorInterface
 {

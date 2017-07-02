@@ -10,7 +10,6 @@ use Tests\AbstractTestConfig;
 
 /**
  * Class ProbeTest
- * @package Tests\Action
  */
 class ProbeTest extends AbstractTestConfig
 {
@@ -62,8 +61,8 @@ class ProbeTest extends AbstractTestConfig
                 new Time('00:00:25,480'),
                 new Time('00:00:29,480'),
                 new Time('00:00:35,000'),
-                new Time('00:01:40,259')
-            ]
+                new Time('00:01:40,259'),
+            ],
         ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Block;
 
 /**
@@ -6,5 +7,4 @@ namespace Domain\Block;
  */
 interface ProbableBlockInterface extends ProbableInterface, BlockInterface
 {
-
 }

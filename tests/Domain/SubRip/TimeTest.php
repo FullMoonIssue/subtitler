@@ -6,7 +6,6 @@ use Domain\SubRip\Time;
 
 /**
  * Class TimeTest
- * @package Tests\Domain
  */
 class TimeTest extends \PHPUnit_Framework_TestCase
 {

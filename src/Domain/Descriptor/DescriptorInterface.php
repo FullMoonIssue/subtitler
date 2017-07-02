@@ -7,7 +7,6 @@ use Domain\Time\TimeInterface;
 
 /**
  * Interface DescriptorInterface
- * @package Domain\Descriptor
  */
 interface DescriptorInterface
 {
@@ -23,12 +22,14 @@ interface DescriptorInterface
 
     /**
      * @param string $formattedTime
+     *
      * @return TimeInterface
      */
     public function buildTime($formattedTime);
 
     /**
      * @param string $contents
+     *
      * @return MatrixInterface
      */
     public function buildMatrix($contents);

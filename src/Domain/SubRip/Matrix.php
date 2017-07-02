@@ -7,7 +7,6 @@ use Domain\Matrix\Matrix as BaseMatrix;
 
 /**
  * Class Matrix
- * @package Domain\SubRip
  */
 class Matrix extends BaseMatrix
 {
@@ -18,7 +17,7 @@ class Matrix extends BaseMatrix
     {
         $numberBlock = 0;
         $blocks = array_map(
-            function($formattedBlock) use (&$numberBlock) {
+            function ($formattedBlock) use (&$numberBlock) {
                 return Block::parseBlock(++$numberBlock, trim($formattedBlock));
             },
             iterator_to_array(new BlockFilterIterator(

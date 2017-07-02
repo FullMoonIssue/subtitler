@@ -1,11 +1,11 @@
 <?php
+
 namespace Domain\Block;
 
 use Domain\Time\TimeInterface;
 
 /**
  * Class TimeSearchIterator
- * @package Domain\Block
  */
 class TimeSearchIterator extends \FilterIterator
 {
@@ -41,7 +41,8 @@ class TimeSearchIterator extends \FilterIterator
 
     /**
      * TimeSearchIterator constructor.
-     * @param \Iterator $iterator
+     *
+     * @param \Iterator     $iterator
      * @param TimeInterface $time
      */
     public function __construct(\Iterator $iterator, TimeInterface $time)
@@ -59,7 +60,7 @@ class TimeSearchIterator extends \FilterIterator
     public function accept()
     {
         ++$this->currentIndex;
-        if(!$this->exactlyTimeFound && !$this->afterBetweenTimeFound) {
+        if (!$this->exactlyTimeFound && !$this->afterBetweenTimeFound) {
             /** @var ProbableBlockInterface $probableBlock */
             $probableBlock = $this->getInnerIterator()->current();
 
@@ -79,25 +80,25 @@ class TimeSearchIterator extends \FilterIterator
             }
 
             // The first in-between times is found, we now have the second
-            if($this->beforeBetweenTimeFound) {
+            if ($this->beforeBetweenTimeFound) {
                 $this->afterBetweenTimeFound = true;
 
                 return true;
             }
 
             // Let's check if we can found an in-between time
-            if($this->time->isGreaterThan($probableBlock->getTimeEnd())) {
+            if ($this->time->isGreaterThan($probableBlock->getTimeEnd())) {
                 $this->getInnerIterator()->next();
                 /** @var ProbableBlockInterface $probableBlock */
                 $probableBlock = $this->getInnerIterator()->current();
 
-                if(null !== $probableBlock) { // The next() would lead after the last element
+                if (null !== $probableBlock) { // The next() would lead after the last element
                     if ($this->time->isLesserThan($probableBlock->getTimeBegin())) {
                         $this->beforeBetweenTimeFound = true;
                     }
 
                     $this->getInnerIterator()->rewind();
-                    for ($index = 0; $index < $this->currentIndex; $index++) {
+                    for ($index = 0; $index < $this->currentIndex; ++$index) {
                         $this->getInnerIterator()->next();
                     }
 

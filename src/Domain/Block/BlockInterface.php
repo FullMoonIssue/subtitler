@@ -1,17 +1,18 @@
 <?php
+
 namespace Domain\Block;
 
 use Domain\Time\TimeInterface;
 
 /**
  * Interface BlockInterface
- * @package Domain\Block
  */
 interface BlockInterface
 {
     /**
-     * @param int $numberBlock
+     * @param int    $numberBlock
      * @param string $text
+     *
      * @return ProbableBlockInterface
      */
     public static function parseBlock($numberBlock, $text);

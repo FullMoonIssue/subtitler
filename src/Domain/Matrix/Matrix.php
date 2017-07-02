@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Matrix;
 
 use Domain\Block\BlockInterface;
@@ -6,7 +7,6 @@ use Domain\Exception\MatrixException;
 
 /**
  * Class Matrix
- * @package Domain
  */
 abstract class Matrix implements MatrixInterface
 {
@@ -17,6 +17,7 @@ abstract class Matrix implements MatrixInterface
 
     /**
      * Matrix constructor.
+     *
      * @param BlockInterface[] $blocks
      */
     public function __construct(array $blocks)

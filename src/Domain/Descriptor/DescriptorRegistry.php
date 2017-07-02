@@ -6,7 +6,6 @@ use Domain\Exception\DescriptorException;
 
 /**
  * Class DescriptorRegistry
- * @package Domain\Descriptor
  */
 class DescriptorRegistry
 {
@@ -25,6 +24,7 @@ class DescriptorRegistry
 
     /**
      * @param DescriptorInterface $descriptor
+     *
      * @return $this
      */
     public function addDescriptor(DescriptorInterface $descriptor)
@@ -36,6 +36,7 @@ class DescriptorRegistry
 
     /**
      * @param $name
+     *
      * @return DescriptorInterface
      */
     public function getDescriptor($name)
@@ -62,6 +63,7 @@ class DescriptorRegistry
 
     /**
      * @param string $extension
+     *
      * @return DescriptorInterface|null
      */
     public function searchDescriptor($extension)

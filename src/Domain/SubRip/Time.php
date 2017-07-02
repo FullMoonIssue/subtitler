@@ -6,7 +6,6 @@ use Domain\Time\Time as BaseTime;
 
 /**
  * Class Time
- * @package Domain\SubRip
  */
 class Time extends BaseTime
 {
@@ -34,7 +33,7 @@ class Time extends BaseTime
             $matches['hours'],
             $matches['minutes'],
             $matches['seconds'],
-            $matches['milliseconds']
+            $matches['milliseconds'],
         ]);
     }
 }
