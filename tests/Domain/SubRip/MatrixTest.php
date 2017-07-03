@@ -38,7 +38,7 @@ BLOCK;
 
     public function setUp()
     {
-        $fixtureContent = file_get_contents(self::FIXTURES_FULL_PATH);
+        $fixtureContent = file_get_contents(self::FIXTURES_SUBRIP_FULL_PATH);
         $this->matrix = Matrix::parseMatrix($fixtureContent);
     }
 

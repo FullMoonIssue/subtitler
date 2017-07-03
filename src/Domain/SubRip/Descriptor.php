@@ -6,6 +6,7 @@ use Domain\Descriptor\DescriptorInterface;
 
 /**
  * Class Descriptor
+ * @todo : add tests
  */
 class Descriptor implements DescriptorInterface
 {

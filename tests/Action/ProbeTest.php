@@ -3,8 +3,9 @@
 namespace Tests\Action;
 
 use Action\Probe;
-use Domain\SubRip\Matrix;
-use Domain\SubRip\Time;
+use Domain\Matrix\MatrixInterface;
+use Domain\SubRip\Matrix as SubRipMatrix;
+use Domain\SubRip\Time as SubRipTime;
 use Domain\Time\TimeInterface;
 use Tests\AbstractTestConfig;
 
@@ -18,21 +19,20 @@ class ProbeTest extends AbstractTestConfig
      * @group Probe
      * @group ProbeFix
      *
-     * @param string $file
+     * @param MatrixInterface $matrix
      * @param $beforeFirstTime
      * @param $exactlyFirstTime
      * @param $betweenTwoTimes
      * @param $afterLastTime
      */
     public function testSearchDifferentTimes(
-        $file,
+        MatrixInterface $matrix,
         TimeInterface $beforeFirstTime,
         TimeInterface $exactlyFirstTime,
         TimeInterface $betweenTwoTimes,
         TimeInterface $afterLastTime
     ) {
         $probe = new Probe();
-        $matrix = Matrix::parseMatrix(file_get_contents($file));
 
         $founds = array_keys($probe->search($matrix, null, $beforeFirstTime));
         $this->assertCount(0, $founds);
@@ -57,11 +57,11 @@ class ProbeTest extends AbstractTestConfig
     {
         return [
             [
-                self::FIXTURES_FULL_PATH,
-                new Time('00:00:25,480'),
-                new Time('00:00:29,480'),
-                new Time('00:00:35,000'),
-                new Time('00:01:40,259'),
+                SubRipMatrix::parseMatrix(file_get_contents(self::FIXTURES_SUBRIP_FULL_PATH)),
+                new SubRipTime('00:00:25,480'),
+                new SubRipTime('00:00:29,480'),
+                new SubRipTime('00:00:35,000'),
+                new SubRipTime('00:01:40,259'),
             ],
         ];
     }
